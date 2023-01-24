@@ -8,36 +8,36 @@ let questions = [
         "right_answer": 3
     },
     {
-        "question":"Wofür steht CSS?",
-        "answer_1":"Cascadian-Style-Sheet",
-        "answer_2":"Charlies-Surfer-Shop",
-        "answer_3":"Central-Source-Sequence",
-        "answer_4":"Cyber-Space-Security",
+        "question": "Wofür steht CSS?",
+        "answer_1": "Cascadian-Style-Sheet",
+        "answer_2": "Charlies-Surfer-Shop",
+        "answer_3": "Central-Source-Sequence",
+        "answer_4": "Cyber-Space-Security",
         "right_answer": 1
     },
     {
-        "question":"Wofür steht HTML?",
-        "answer_1":"Half Time Menu Lunch",
-        "answer_2":"Horst Tina Marcel Lauch",
-        "answer_3":"Heftig Toller Massen Lauf",
-        "answer_4":"HyperText Markup Language",
+        "question": "Wofür steht HTML?",
+        "answer_1": "Half Time Menu Lunch",
+        "answer_2": "Horst Tina Marcel Lauch",
+        "answer_3": "Heftig Toller Massen Lauf",
+        "answer_4": "HyperText Markup Language",
         "right_answer": 4
     },
     {
-        "question":"Wie schreibt man Kommentare in HTML?",
-        "answer_1":"//Ich bin ein Kommentar",
-        "answer_2":"*/Ich bin ein Kommentar",
-        "answer_3":"<!--Ich bin ein Kommentar",
-        "answer_4":"/*Ich bin ein Kommentar",
-        "right_answer":3
+        "question": "Wie schreibt man Kommentare in HTML?",
+        "answer_1": "//Ich bin ein Kommentar",
+        "answer_2": "*/Ich bin ein Kommentar",
+        "answer_3": "<!--Ich bin ein Kommentar",
+        "answer_4": "/*Ich bin ein Kommentar",
+        "right_answer": 3
     },
     {
-        "question":"Was benötigt man eher zum Programieren?",
-        "answer_1":"Toast mir Salami und Käse",
-        "answer_2":"Notebook",
-        "answer_3":"Stift und Zeichenblock",
-        "answer_4":"Ein Auto auf der Straße",
-        "right_answer":2
+        "question": "Was benötigt man eher zum Programieren?",
+        "answer_1": "Toast mir Salami und Käse",
+        "answer_2": "Notebook",
+        "answer_3": "Stift und Zeichenblock",
+        "answer_4": "Ein Auto auf der Straße",
+        "right_answer": 2
     }
 
 ];
@@ -50,7 +50,7 @@ function init() {
 
 
 function showQuest() {
-    let question = questions[currentquest]; 
+    let question = questions[currentquest];
     document.getElementById('question').innerHTML = question['question'];
     document.getElementById('answer_1').innerHTML = question['answer_1'];
     document.getElementById('answer_2').innerHTML = question['answer_2'];
@@ -58,22 +58,32 @@ function showQuest() {
     document.getElementById('answer_4').innerHTML = question['answer_4'];
 }
 
-//function answer(selection) {
-//    let test = document.getElementById(selection);
-//    let right_answer = document.getElementById('answer_3');
-//    if (test == right_answer) {
-//        document.getElementById(selection).classList.add('rightanswercolor');
-//    } else {
-//        document.getElementById(selection).classList.add('wronganswercolor');
-//    }
-//}
-
 function answer(selection) {
     let question = questions[currentquest];
     let selectedQuestionNumber = selection.slice(-1);
-    if(selectedQuestionNumber == question['right_answer']) {
+    let idOfRightAnswer = `answer_${question['right_answer']}`
+    if (selectedQuestionNumber == question['right_answer']) {
         document.getElementById(selection).classList.add('text-bg-success');
-    }else {
-        document.getElementById(selection).classList.add('text-bg-danger')
+    } else {
+        document.getElementById(selection).classList.add('text-bg-danger');
+        document.getElementById(idOfRightAnswer).classList.add('text-bg-success');
     }
+    document.getElementById('next-button').disabled = false;
+}
+
+function nextQuestion() {
+    currentquest++;
+    showQuest();
+    document.getElementById('next-button').disabled = true;
+}
+
+function resetAnswerButtons(){
+    document.getElementById('answer_1').classList.remove('text-bg-success');
+    document.getElementById('answer_1').classList.remove('text-bg-danger');
+    document.getElementById('answer_2').classList.remove('text-bg-success');
+    document.getElementById('answer_2').classList.remove('text-bg-danger');
+    document.getElementById('answer_3').classList.remove('text-bg-success');
+    document.getElementById('answer_3').classList.remove('text-bg-danger');
+    document.getElementById('answer_4').classList.remove('text-bg-success');
+    document.getElementById('answer_4').classList.remove('text-bg-danger');
 }
