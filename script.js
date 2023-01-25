@@ -24,12 +24,12 @@ let questions = [
         "right_answer": 4
     },
     {
-        "question": "Wie schreibt man Kommentare in HTML?",
-        "answer_1": "//Ich bin ein Kommentar",
-        "answer_2": "*/Ich bin ein Kommentar",
-        "answer_3": "<!--Ich bin ein Kommentar",
-        "answer_4": "/*Ich bin ein Kommentar",
-        "right_answer": 3
+        "question": "Wie schreibt man Kommentare in JavaScript?",
+        "answer_1": "// Ich bin ein Kommentar",
+        "answer_2": "*/ Ich bin ein Kommentar",
+        "answer_3": "<--- Ich bin ein Kommentar",
+        "answer_4": "/* Ich bin ein Kommentar",
+        "right_answer": 1
     },
     {
         "question": "Was benötigt man eher zum Programieren?",
@@ -41,21 +41,32 @@ let questions = [
     }
 
 ];
+
 let currentquest = 0;
+let currentCounter = 1;
+
 
 function init() {
     document.getElementById('counter').innerHTML = questions.length;
+    document.getElementById('current-counter').innerHTML = currentCounter;
     showQuest();
 }
 
 
 function showQuest() {
-    let question = questions[currentquest];
-    document.getElementById('question').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+
+    if (currentquest >= questions.length) {
+        // TODO End Screen
+    } else {
+
+        let question = questions[currentquest];
+        document.getElementById('question').innerHTML = question['question'];
+        document.getElementById('answer_1').innerHTML = question['answer_1'];
+        document.getElementById('answer_2').innerHTML = question['answer_2'];
+        document.getElementById('answer_3').innerHTML = question['answer_3'];
+        document.getElementById('answer_4').innerHTML = question['answer_4'];
+        document.getElementById('current-counter').innerHTML = currentCounter;
+    }
 }
 
 function answer(selection) {
@@ -73,11 +84,13 @@ function answer(selection) {
 
 function nextQuestion() {
     currentquest++;
-    showQuest();
+    currentCounter++;
     document.getElementById('next-button').disabled = true;
+    resetAnswerButtons();
+    showQuest();
 }
 
-function resetAnswerButtons(){
+function resetAnswerButtons() {
     document.getElementById('answer_1').classList.remove('text-bg-success');
     document.getElementById('answer_1').classList.remove('text-bg-danger');
     document.getElementById('answer_2').classList.remove('text-bg-success');
