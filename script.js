@@ -142,12 +142,14 @@ function showEndScreen() {
     document.getElementById('quest-cards').style = 'display: none';
     document.getElementById('amount-of-right-answers').innerHTML = rightquestions;
     document.getElementById('card-img-top').style = 'display: none';
+    document.getElementById('div-container-landscape').style = 'display: none';
 }
 
 function restartQuiz() {
     document.getElementById('end-card').style = 'display: none';
     document.getElementById('quest-cards').style = '';
     document.getElementById('card-img-top').style = 'display: unset';
+    document.getElementById('div-container-landscape').style = 'width: 100%';
     currentCounter = 1;
     currentquest = 0;
     rightquestions = 0;
