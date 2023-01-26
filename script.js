@@ -101,9 +101,6 @@ function wrongAnswer(selection, idOfRightAnswer) {
     audio_wrong_answer.play();
 }
 
-
-
-
 function nextQuestion() {
     currentquest++;
     currentCounter++;
