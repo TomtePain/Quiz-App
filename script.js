@@ -39,15 +39,20 @@ let questions = [
         "answer_4": "Ein Auto auf der Straße",
         "right_answer": 2
     }
-
 ];
+
+let rightquestions = 0;
 
 let currentquest = 0;
 let currentCounter = 1;
 
+let audio_right_answer = new Audio('audio/right.mp3');
+let audio_wrong_answer = new Audio('audio/wrong.mp3');
+
 
 function init() {
     document.getElementById('counter').innerHTML = questions.length;
+    document.getElementById('counter1').innerHTML = questions.length;
     document.getElementById('current-counter').innerHTML = currentCounter;
     showQuest();
 }
@@ -55,32 +60,49 @@ function init() {
 
 function showQuest() {
 
-    if (currentquest >= questions.length) {
-        // TODO End Screen
+    if (gameIsOver()) {
+        showEndScreen();
     } else {
-
-        let question = questions[currentquest];
-        document.getElementById('question').innerHTML = question['question'];
-        document.getElementById('answer_1').innerHTML = question['answer_1'];
-        document.getElementById('answer_2').innerHTML = question['answer_2'];
-        document.getElementById('answer_3').innerHTML = question['answer_3'];
-        document.getElementById('answer_4').innerHTML = question['answer_4'];
-        document.getElementById('current-counter').innerHTML = currentCounter;
+        progressBar();
+        showNextQuestion();
     }
+}
+
+function gameIsOver() {
+    return currentquest >= questions.length;
 }
 
 function answer(selection) {
     let question = questions[currentquest];
     let selectedQuestionNumber = selection.slice(-1);
     let idOfRightAnswer = `answer_${question['right_answer']}`
-    if (selectedQuestionNumber == question['right_answer']) {
-        document.getElementById(selection).classList.add('text-bg-success');
+    if (rightAnswerSelected(selectedQuestionNumber)) {
+        rightAnswer(selection);
     } else {
-        document.getElementById(selection).classList.add('text-bg-danger');
-        document.getElementById(idOfRightAnswer).classList.add('text-bg-success');
+        wrongAnswer(selection, idOfRightAnswer);
     }
     document.getElementById('next-button').disabled = false;
 }
+
+function rightAnswerSelected(selectedQuestionNumber) {
+    let question = questions[currentquest];
+    return selectedQuestionNumber == question['right_answer'];
+}
+
+function rightAnswer(selection) {
+    document.getElementById(selection).classList.add('text-bg-success');
+    rightquestions++;
+    audio_right_answer.play();
+}
+
+function wrongAnswer(selection, idOfRightAnswer) {
+    document.getElementById(selection).classList.add('text-bg-danger');
+    document.getElementById(idOfRightAnswer).classList.add('text-bg-success');
+    audio_wrong_answer.play();
+}
+
+
+
 
 function nextQuestion() {
     currentquest++;
@@ -99,4 +121,38 @@ function resetAnswerButtons() {
     document.getElementById('answer_3').classList.remove('text-bg-danger');
     document.getElementById('answer_4').classList.remove('text-bg-success');
     document.getElementById('answer_4').classList.remove('text-bg-danger');
+}
+
+function progressBar() {
+    let percent = (currentquest + 1) / questions.length
+    percent = percent * 100;
+    document.getElementById('progress-bar').innerHTML = `${percent}%`;
+    document.getElementById('progress-bar').style = `width:${percent}%`;
+}
+
+function showNextQuestion() {
+    let question = questions[currentquest];
+    document.getElementById('question').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    document.getElementById('current-counter').innerHTML = currentCounter;
+}
+
+function showEndScreen() {
+    document.getElementById('end-card').style = '';
+    document.getElementById('quest-cards').style = 'display: none';
+    document.getElementById('amount-of-right-answers').innerHTML = rightquestions;
+    document.getElementById('card-img-top').style = 'display: none';
+}
+
+function restartQuiz() {
+    document.getElementById('end-card').style = 'display: none';
+    document.getElementById('quest-cards').style = '';
+    document.getElementById('card-img-top').style = 'display: unset';
+    currentCounter = 1;
+    currentquest = 0;
+    rightquestions = 0;
+    init();
 }
